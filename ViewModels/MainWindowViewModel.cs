@@ -20,16 +20,16 @@ public partial class MainWindowViewModel : ViewModelBase
     [
         new LineSeries<ObservableFloatPoint>()
         {
-            Values = new ObservableCollection<ObservableFloatPoint>(),
             GeometrySize = 0,
             GeometryFill = null,
+            Fill = null,
             XToolTipLabelFormatter = value => $"x val: {value.Coordinate.SecondaryValue:G5}"
         },
         new LineSeries<ObservableFloatPoint>()
         {
-            Values = new ObservableCollection<ObservableFloatPoint>(),
             GeometrySize = 0,
-            GeometryFill = null,
+            GeometryFill = null, 
+            Fill = null,
             XToolTipLabelFormatter = value => $"x val: {value.Coordinate.SecondaryValue:G5}"
         }
     ];
@@ -38,6 +38,8 @@ public partial class MainWindowViewModel : ViewModelBase
     public MainWindowViewModel()
     {
         StreamReader reader = new(Path.Combine(".", "Assets", "viper3d_th_overpressure.txt"));
+        ObservableCollection<ObservableFloatPoint> series1 = [];
+        ObservableCollection<ObservableFloatPoint> series2 = [];
 
         while (reader.ReadLine() is string line)
         {
@@ -46,8 +48,11 @@ public partial class MainWindowViewModel : ViewModelBase
                 continue;
             if (!float.TryParse(parts[0], out float x) || !float.TryParse(parts[1], out float y1) || !float.TryParse(parts[2], out float y2))
                 continue;
-            _plottedSeries[0].Values.Add(new ObservableFloatPoint(x, y1));
-            _plottedSeries[1].Values.Add(new ObservableFloatPoint(x, y2));
+            series1.Add(new ObservableFloatPoint(x, y1));
+            series2.Add(new ObservableFloatPoint(x, y2));
         }
+
+        _plottedSeries[0].Values = series1;
+        _plottedSeries[1].Values = series2;
     }
 }

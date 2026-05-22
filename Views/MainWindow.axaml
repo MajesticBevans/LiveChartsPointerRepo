@@ -21,10 +21,15 @@
         <vm:MainWindowViewModel />
     </Design.DataContext>
 
-    <lvc:CartesianChart
-        Series="{Binding PlottedSeries}"
-        XAxes="{Binding XAxes}"
-        YAxes="{Binding YAxes}"
-        ZoomMode="X" />
+    <Grid HorizontalAlignment="Stretch" VerticalAlignment="Stretch" RowDefinitions="*, Auto" ColumnDefinitions="*, Auto">
+        <lvc:CartesianChart 
+            Series="{Binding PlottedSeries}"
+            XAxes="{Binding XAxes}"
+            YAxes="{Binding YAxes}"
+            TooltipPosition="Hidden"
+            ZoomMode="X" />
 
+        <NumericUpDown Grid.Row="1" Grid.Column="1" Value="{Binding SubseparatorsCount}" />
+
+    </Grid>
 </Window>

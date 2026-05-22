@@ -4,6 +4,9 @@ using System.Collections.ObjectModel;
 
 using CommunityToolkit.Mvvm.ComponentModel;
 using LiveChartsCore.SkiaSharpView;
+using SkiaSharp;
+using LiveChartsCore.Painting;
+using LiveChartsCore.SkiaSharpView.Painting;
 
 namespace LiveChartsPointerRepo.ViewModels;
 
@@ -14,6 +17,12 @@ public partial class MainWindowViewModel : ViewModelBase
     
     [ObservableProperty]
     private Axis[] _yAxes = [new Axis()];
+
+    public int SubseparatorsCount
+    {
+        get => XAxes[0].SubseparatorsCount;
+        set => XAxes[0].SubseparatorsCount = value;
+    }
 
     [ObservableProperty]
     private LineSeries<ObservableFloatPoint>[] _plottedSeries =
@@ -54,5 +63,8 @@ public partial class MainWindowViewModel : ViewModelBase
 
         _plottedSeries[0].Values = series1;
         _plottedSeries[1].Values = series2;
+        SubseparatorsCount = 0;
+        XAxes[0].SeparatorsPaint = new SolidColorPaint(SKColors.Red);
+        XAxes[0].SubseparatorsPaint = new SolidColorPaint(SKColors.Blue);
     }
 }
